@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bienvenida</title>
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/estilos.css">
+  <script type="module" src="js/bienvenida.js"></script>
+</head>
+<body>
+  <header id="encabezado" class="encabezado"></header>
+
+  <main class="bienvenida">
+    <section class="bienvenidaTarjeta" aria-labelledby="tituloBienvenida">
+      <img src="img/logo.svg" alt="" class="bienvenidaLogo" width="88" height="88">
+      <h1 id="tituloBienvenida">¡Bienvenido!</h1>
+      <p class="bienvenidaTexto">Ingresá tu nombre para empezar tu compra.</p>
+
+      <form id="formNombre" class="formulario" novalidate>
+        <label for="nombre" class="formularioEtiqueta">Tu nombre</label>
+        <input
+          id="nombre"
+          name="nombre"
+          type="text"
+          class="formularioCampo"
+          autocomplete="given-name"
+          maxlength="10"
+          placeholder="Ej.: Sofía"
+          aria-describedby="errorNombre"
+          required
+        >
+        <p id="errorNombre" class="mensajeError" hidden></p>
+
+        <button type="submit" class="boton botonPrimario botonGrande">
+          <span class="botonTexto">Continuar</span>
+          <span class="icono iconoContinuar" aria-hidden="true"></span>
+        </button>
+      </form>
+
+      <div class="bienvenidaCategorias">
+        <span>Hoy podés comprar</span>
+        <ul id="listaCategorias" class="chips"></ul>
+      </div>
+    </section>
+  </main>
+
+  <footer id="pie" class="pie"></footer>
+</body>
+</html>

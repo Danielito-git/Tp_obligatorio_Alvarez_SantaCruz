@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Productos</title>
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/estilos.css">
+  <script type="module" src="jsFrontend/productos.js"></script>
+</head>
+<body>
+  <header id="encabezado" class="encabezado"></header>
+
+  <main class="catalogo">
+    <nav id="categorias" class="categorias" aria-label="Categorías"></nav>
+
+    <section class="catalogoContenido" aria-labelledby="tituloCategoria">
+      <div class="catalogoCabecera">
+        <p id="saludo" class="catalogoSaludo"></p>
+        <h1 id="tituloCategoria">Productos</h1>
+      </div>
+
+      <p id="estado" class="estado" role="status" hidden></p>
+      <div id="grilla" class="grilla"></div>
+      <nav id="paginacion" class="paginacion" aria-label="Páginas de productos"></nav>
+    </section>
+  </main>
+
+  <footer id="pie" class="pie"></footer>
+</body>
+</html>

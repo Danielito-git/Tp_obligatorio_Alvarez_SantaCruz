@@ -1,0 +1,167 @@
+[
+  {
+    "id": 1,
+    "nombre": "Samsung 990 Pro 1 TB",
+    "precio": 189999,
+    "imagen": "img/productos/samsung990Pro1Tb.svg",
+    "tipo": "ssd",
+    "activo": true,
+    "atributos": {
+      "marca": "Samsung",
+      "capacidad": "1 TB",
+      "formato": "M.2 2280",
+      "interfaz": "NVMe PCIe 4.0",
+      "lectura": 7450,
+      "escritura": 6900
+    }
+  },
+  {
+    "id": 2,
+    "nombre": "Samsung 870 EVO 500 GB",
+    "precio": 69999,
+    "imagen": "img/productos/samsung870Evo500Gb.svg",
+    "tipo": "ssd",
+    "activo": true,
+    "atributos": {
+      "marca": "Samsung",
+      "capacidad": "500 GB",
+      "formato": "2,5\"",
+      "interfaz": "SATA III",
+      "lectura": 560,
+      "escritura": 530
+    }
+  },
+  {
+    "id": 3,
+    "nombre": "Kingston NV2 1 TB",
+    "precio": 79999,
+    "imagen": "img/productos/kingstonNv21Tb.svg",
+    "tipo": "ssd",
+    "activo": true,
+    "atributos": {
+      "marca": "Kingston",
+      "capacidad": "1 TB",
+      "formato": "M.2 2280",
+      "interfaz": "NVMe PCIe 4.0",
+      "lectura": 3500,
+      "escritura": 2100
+    }
+  },
+  {
+    "id": 4,
+    "nombre": "WD Black SN850X 1 TB",
+    "precio": 179999,
+    "imagen": "img/productos/wdBlackSn850x1Tb.svg",
+    "tipo": "ssd",
+    "activo": true,
+    "atributos": {
+      "marca": "Western Digital",
+      "capacidad": "1 TB",
+      "formato": "M.2 2280",
+      "interfaz": "NVMe PCIe 4.0",
+      "lectura": 7300,
+      "escritura": 6300
+    }
+  },
+  {
+    "id": 5,
+    "nombre": "Crucial P3 Plus 1 TB",
+    "precio": 84999,
+    "imagen": "img/productos/crucialP3Plus1Tb.svg",
+    "tipo": "ssd",
+    "activo": true,
+    "atributos": {
+      "marca": "Crucial",
+      "capacidad": "1 TB",
+      "formato": "M.2 2280",
+      "interfaz": "NVMe PCIe 4.0",
+      "lectura": 5000,
+      "escritura": 4200
+    }
+  },
+  {
+    "id": 6,
+    "nombre": "AMD Ryzen 5 5600",
+    "precio": 159999,
+    "imagen": "img/productos/amdRyzen55600.svg",
+    "tipo": "procesadores",
+    "activo": true,
+    "atributos": {
+      "marca": "AMD",
+      "nucleos": 6,
+      "hilos": 12,
+      "frecuenciaBase": 3.5,
+      "frecuenciaTurbo": 4.4,
+      "socket": "AM4",
+      "graficosIntegrados": false
+    }
+  },
+  {
+    "id": 7,
+    "nombre": "AMD Ryzen 7 7800X3D",
+    "precio": 549999,
+    "imagen": "img/productos/amdRyzen77800x3d.svg",
+    "tipo": "procesadores",
+    "activo": true,
+    "atributos": {
+      "marca": "AMD",
+      "nucleos": 8,
+      "hilos": 16,
+      "frecuenciaBase": 4.2,
+      "frecuenciaTurbo": 5.0,
+      "socket": "AM5",
+      "graficosIntegrados": true
+    }
+  },
+  {
+    "id": 8,
+    "nombre": "Intel Core i3-12100F",
+    "precio": 99999,
+    "imagen": "img/productos/intelCoreI312100f.svg",
+    "tipo": "procesadores",
+    "activo": true,
+    "atributos": {
+      "marca": "Intel",
+      "nucleos": 4,
+      "hilos": 8,
+      "frecuenciaBase": 3.3,
+      "frecuenciaTurbo": 4.3,
+      "socket": "LGA 1700",
+      "graficosIntegrados": false
+    }
+  },
+  {
+    "id": 9,
+    "nombre": "Intel Core i5-13400F",
+    "precio": 229999,
+    "imagen": "img/productos/intelCoreI513400f.svg",
+    "tipo": "procesadores",
+    "activo": true,
+    "atributos": {
+      "marca": "Intel",
+      "nucleos": 10,
+      "hilos": 16,
+      "frecuenciaBase": 2.5,
+      "frecuenciaTurbo": 4.6,
+      "socket": "LGA 1700",
+      "graficosIntegrados": false
+    }
+  },
+  {
+    "id": 10,
+    "nombre": "Intel Core i9-14900K",
+    "precio": 699999,
+    "imagen": "img/productos/intelCoreI914900k.svg",
+    "tipo": "procesadores",
+    "activo": true,
+    "atributos": {
+      "marca": "Intel",
+      "nucleos": 24,
+      "hilos": 32,
+      "frecuenciaBase": 3.2,
+      "frecuenciaTurbo": 6.0,
+      "socket": "LGA 1700",
+      "graficosIntegrados": true
+    }
+  }
+]

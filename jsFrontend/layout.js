@@ -40,8 +40,9 @@ function crearNavegacion(pantalla) {
   nav.setAttribute("aria-label", "Navegación principal");
 
   if (pantalla === "productos") {
-    nav.append(crearEnlace("Inicio", "index.html", "iconoInicio"));
-    nav.append(crearBotonCarrito());
+    nav.append(crearEnlace("Inicio", "index.html", "iconoInicio"), crearEnlaceCarrito());
+  } else if (pantalla === "carrito") {
+    nav.append(crearEnlace("Inicio", "index.html", "iconoInicio"), crearEnlace("Productos", "productos.html", "iconoProductos"));
   }
 
   nav.append(crearBotonAdmin(), crearBotonTema());
@@ -56,12 +57,10 @@ function crearEnlace(texto, href, icono) {
   return enlace;
 }
 
-function crearBotonCarrito() {
-  const boton = document.createElement("button");
-  boton.type = "button";
+function crearEnlaceCarrito() {
+  const boton = document.createElement("a");
   boton.className = "boton botonCarrito";
-  boton.disabled = true;
-  boton.title = "La pantalla de carrito se agrega en la próxima etapa";
+  boton.href = "carrito.html";
 
   const insignia = document.createElement("span");
   insignia.className = "insignia";
@@ -82,7 +81,7 @@ function crearBotonCarrito() {
 function crearBotonAdmin() {
   const texto = "Administración";
   if (config.urlLoginAdmin) {
-    return crearEnlace(texto, config.urlLoginAdmin, "admin");
+    return crearEnlace(texto, config.urlLoginAdmin, "iconoAdmin");
   }
   const boton = document.createElement("button");
   boton.type = "button";

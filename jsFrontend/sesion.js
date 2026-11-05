@@ -1,6 +1,7 @@
-// Guarda el nombre y el carrito de la compra actual; lo usan bienvenida.js, productos.js y layout.js.
-const claveNombre = "autoservicioNombre";
-const claveCarrito = "autoservicioCarrito";
+// Guarda el nombre, el carrito y la compra confirmada; lo usan todas las pantallas a través de sus scripts.
+const claveNombre = "technologiaNombre";
+const claveCarrito = "technologiaCarrito";
+const claveCompra = "technologiaCompra";
 
 export const eventoCarrito = "carritoActualizado";
 
@@ -12,13 +13,17 @@ export function obtenerNombre() {
   return sessionStorage.getItem(claveNombre);
 }
 
-export function obtenerCarrito() {
+function leerJson(clave, valorPorDefecto) {
   try {
-    const datos = JSON.parse(sessionStorage.getItem(claveCarrito));
-    return Array.isArray(datos) ? datos : [];
+    return JSON.parse(sessionStorage.getItem(clave)) ?? valorPorDefecto;
   } catch (error) {
-    return [];
+    return valorPorDefecto;
   }
+}
+
+export function obtenerCarrito() {
+  const datos = leerJson(claveCarrito, []);
+  return Array.isArray(datos) ? datos : [];
 }
 
 function guardarCarrito(carrito) {
@@ -33,6 +38,10 @@ export function cantidadEnCarrito(idProducto) {
 
 export function totalUnidades() {
   return obtenerCarrito().reduce((total, item) => total + item.cantidad, 0);
+}
+
+export function totalCarrito() {
+  return obtenerCarrito().reduce((total, item) => total + item.precio * item.cantidad, 0);
 }
 
 export function agregarAlCarrito(producto) {
@@ -65,7 +74,25 @@ export function quitarDelCarrito(idProducto) {
   guardarCarrito(obtenerCarrito().filter((item) => item.id !== idProducto));
 }
 
+export function confirmarCompra() {
+  const carrito = obtenerCarrito();
+  const compra = {
+    nombre: obtenerNombre(),
+    fecha: new Date().toISOString(),
+    productos: carrito,
+    total: totalCarrito(),
+  };
+  sessionStorage.setItem(claveCompra, JSON.stringify(compra));
+  guardarCarrito([]);
+  return compra;
+}
+
+export function obtenerCompra() {
+  return leerJson(claveCompra, null);
+}
+
 export function reiniciarCompra() {
   sessionStorage.removeItem(claveNombre);
   sessionStorage.removeItem(claveCarrito);
+  sessionStorage.removeItem(claveCompra);
 }

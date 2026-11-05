@@ -10,6 +10,7 @@ export function formatearPrecio(valor) {
 }
 
 export function formatearAtributo(valor, unidad) {
+    
   if (typeof valor === "boolean") return valor ? "Sí" : "No";
   const texto = typeof valor === "number" ? valor.toLocaleString("es-AR") : valor;
   return unidad ? `${texto} ${unidad}` : texto;}

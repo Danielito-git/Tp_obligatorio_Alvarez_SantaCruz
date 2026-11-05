@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carrito</title>
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/estilos.css">
+  <script type="module" src="jsFrontend/carrito.js"></script>
+</head>
+<body>
+  <header id="encabezado" class="encabezado"></header>
+
+  <main class="carrito">
+    <section class="carritoContenido" aria-labelledby="tituloCarrito">
+      <p id="saludo" class="catalogoSaludo"></p>
+      <h1 id="tituloCarrito">Tu carrito</h1>
+
+      <div id="carritoVacio" class="estado" hidden>
+        <p>Tu carrito está vacío.</p>
+        <a href="productos.html" class="boton botonPrimario">Ver productos</a>
+      </div>
+      <ul id="lineasCarrito" class="lineasCarrito"></ul>
+    </section>
+
+    <aside class="resumen" aria-labelledby="tituloResumen">
+      <h2 id="tituloResumen">Resumen</h2>
+      <dl class="resumenDatos">
+        <dt>Unidades</dt>
+        <dd id="resumenUnidades">0</dd>
+        <dt>Total</dt>
+        <dd id="resumenTotal" class="resumenTotal">$ 0</dd>
+      </dl>
+      <button id="botonConfirmar" type="button" class="boton botonPrimario botonGrande botonAncho">Confirmar compra</button>
+      <a href="productos.html" class="boton botonAncho">Seguir comprando</a>
+    </aside>
+  </main>
+
+  <dialog id="modalConfirmar" class="modal" aria-labelledby="tituloModal">
+    <h2 id="tituloModal">¿Confirmás la compra?</h2>
+    <p id="textoModal"></p>
+    <div class="modalAcciones">
+      <button id="botonCancelar" type="button" class="boton">Cancelar</button>
+      <button id="botonAceptar" type="button" class="boton botonPrimario">Confirmar</button>
+    </div>
+  </dialog>
+
+  <footer id="pie" class="pie"></footer>
+</body>
+</html>

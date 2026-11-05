@@ -283,6 +283,7 @@ function pintarPaginacion({ pagina, totalPaginas }) {
 
 function crearBotonPagina(destino, texto, deshabilitado) {
   const boton = document.createElement("button");
+  
   boton.type = "button";
   boton.className = "boton";
   boton.disabled = deshabilitado;

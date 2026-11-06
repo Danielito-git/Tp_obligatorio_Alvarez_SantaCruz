@@ -1,0 +1,27 @@
+<%- include('partials/encabezado', { titulo: 'Login' }) %>
+
+    <h1>Iniciar sesión</h1>
+
+    <form id="formLogin" action="/login" method="POST">
+      <p>
+        <label for="correo">Correo</label><br>
+        <input type="email" id="correo" name="correo" required>
+      </p>
+      <p>
+        <label for="contrasenia">Contraseña</label><br>
+        <input type="password" id="contrasenia" name="contrasenia" required>
+      </p>
+
+      <button type="submit">Ingresar</button>
+      <button type="button" id="accesoRapido">Acceso rápido (testeo)</button>
+    </form>
+
+    <!-- Cambiar mas tarde -->
+    <script>
+      document.getElementById('accesoRapido').addEventListener('click', () => {
+        document.getElementById('correo').value = 'admin@correo.com';
+        document.getElementById('contrasenia').value = '123456';
+      });
+    </script>
+
+<%- include('partials/pie') %>

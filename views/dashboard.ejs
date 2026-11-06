@@ -1,0 +1,48 @@
+<%- include('partials/encabezado', { titulo: 'Dashboard' }) %>
+
+    <h1>Panel de administrador</h1>
+
+    <p><a href="/admin/productos/nuevo">+ Agregar producto</a></p>
+
+    <!-- cambiar mas adelante oh yeah -->
+    <h2>Tipo: Tipo 1</h2>
+    <table border="1" cellpadding="4">
+      <thead>
+        <tr>
+          <th>ID</th><th>Imagen</th><th>Nombre</th><th>Precio</th><th>Activo</th><th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td><img src="/img/producto.png" alt="" width="48"></td>
+          <td>Producto de ejemplo</td>
+          <td>$1000</td>
+          <td>Sí</td>
+          <td>
+            <a href="/admin/productos/1/editar">Modificar</a>
+            <form action="/admin/productos/1/desactivar" method="POST" style="display:inline">
+              <button type="submit">Desactivar</button>
+            </form>
+          </td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td><img src="/img/producto.png" alt="" width="48"></td>
+          <td>Otro producto (inactivo)</td>
+          <td>$2000</td>
+          <td>No</td>
+          <td>
+            <a href="/admin/productos/2/editar">Modificar</a>
+            <form action="/admin/productos/2/reactivar" method="POST" style="display:inline">
+              <button type="submit">Reactivar</button>
+            </form>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>Tipo: Tipo 2</h2>
+    <p>(Misma tabla, con los productos de este tipo.)</p>
+
+<%- include('partials/pie') %>

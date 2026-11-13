@@ -1,0 +1,34 @@
+<%# Pantalla de login del administrador; la muestra panelControlador.js en /login. %>
+<%- include('parciales/encabezado', { titulo: 'Login' }) %>
+
+  <main class="bienvenida">
+    <section class="bienvenidaTarjeta" aria-labelledby="tituloLogin">
+      <img src="/img/logo.svg" alt="" class="bienvenidaLogo" width="88" height="88">
+      <h1 id="tituloLogin">Iniciar sesión</h1>
+      <p class="bienvenidaTexto">Ingresá con tu cuenta de administrador.</p>
+
+      <form id="formLogin" class="formulario" action="/login" method="POST">
+        <label for="correo" class="formularioEtiqueta">Correo</label>
+        <input type="email" id="correo" name="correo" class="formularioCampo" autocomplete="username" required>
+
+        <label for="contrasenia" class="formularioEtiqueta">Contraseña</label>
+        <input type="password" id="contrasenia" name="contrasenia" class="formularioCampo" autocomplete="current-password" required>
+
+        <button type="submit" class="boton botonPrimario botonGrande">
+          <span class="botonTexto">Ingresar</span>
+          <span class="icono iconoContinuar" aria-hidden="true"></span>
+        </button>
+        <button type="button" id="accesoRapido" class="boton">Acceso rápido (testeo)</button>
+      </form>
+    </section>
+  </main>
+
+  <!-- Cambiar mas tarde -->
+  <script>
+    document.getElementById('accesoRapido').addEventListener('click', () => {
+      document.getElementById('correo').value = 'admin@correo.com';
+      document.getElementById('contrasenia').value = '123456';
+    });
+  </script>
+
+<%- include('parciales/pie') %>

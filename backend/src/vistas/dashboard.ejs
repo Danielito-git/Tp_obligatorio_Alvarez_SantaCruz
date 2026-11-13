@@ -1,0 +1,60 @@
+<%# Panel con los productos de la base separados por tipo; lo muestra panelControlador.js en /admin/dashboard. %>
+<%- include('parciales/encabezado', { titulo: 'Dashboard' }) %>
+
+  <main class="panel">
+    <div class="panelCabecera">
+      <h1>Panel de administrador</h1>
+      <a class="boton botonPrimario" href="/admin/productos/nuevo">
+        <span class="icono iconoMas" aria-hidden="true"></span>
+        <span class="botonTexto">Agregar producto</span>
+      </a>
+    </div>
+
+    <% secciones.forEach((seccion) => { %>
+    <section class="panelSeccion">
+      <h2>
+        <span class="icono <%= seccion.icono %>" aria-hidden="true"></span>
+        <%= seccion.nombre %>
+        <span class="panelCantidad">(<%= seccion.productos.length %>)</span>
+      </h2>
+
+      <% if (seccion.productos.length === 0) { %>
+      <p class="estado">No hay productos de este tipo.</p>
+      <% } else { %>
+      <div class="tablaContenedor">
+        <table class="tablaPanel">
+          <thead>
+            <tr>
+              <th>ID</th><th>Imagen</th><th>Nombre</th><th class="columnaNumero">Precio</th><th>Estado</th><th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% seccion.productos.forEach((producto) => { %>
+            <tr class="<%= producto.activo ? '' : 'filaInactiva' %>">
+              <td><%= producto.id %></td>
+              <td><img src="/<%= producto.imagen %>" alt="" class="tablaImagen" width="48" height="48"></td>
+              <td><%= producto.nombre %></td>
+              <td class="columnaNumero"><%= formatearPrecio(producto.precio) %></td>
+              <td>
+                <span class="etiqueta <%= producto.activo ? 'etiquetaActivo' : 'etiquetaInactivo' %>"><%= producto.activo ? 'Activo' : 'Inactivo' %></span>
+              </td>
+              <td>
+                <div class="tablaAcciones">
+                  <a class="boton botonChico" href="/admin/productos/<%= producto.id %>/editar">Modificar</a>
+                  <% const accion = producto.activo ? 'desactivar' : 'reactivar'; %>
+                  <form action="/admin/productos/<%= producto.id %>/<%= accion %>" method="POST">
+                    <button type="submit" class="boton botonChico <%= producto.activo ? 'botonPeligro' : '' %>"><%= producto.activo ? 'Desactivar' : 'Reactivar' %></button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+      <% } %>
+    </section>
+    <% }) %>
+  </main>
+
+<%- include('parciales/pie') %>

@@ -1,0 +1,31 @@
+<%# Encabezado común del panel de administración, con los estilos de la tienda; lo incluyen login.ejs y dashboard.ejs. %>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= titulo %> - Technologia</title>
+  <link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/css/estilos.css">
+  <link rel="stylesheet" href="/css/panel.css">
+  <script src="/js/panel.js"></script>
+</head>
+<body>
+  <header class="encabezado">
+    <div class="marca">
+      <img src="/img/logo.svg" alt="Logo de Technologia" class="marcaLogo" width="44" height="44">
+      <div>
+        <span class="marcaNombre">Technologia</span>
+        <span class="marcaEslogan">Consola de administrador</span>
+      </div>
+    </div>
+
+    <nav class="navegacion" aria-label="Navegación del panel">
+      <a class="boton" href="<%= urlTienda %>"><span class="icono iconoCarrito" aria-hidden="true"></span><span class="botonTexto">Tienda</span></a>
+      <a class="boton" href="/login"><span class="icono iconoAdmin" aria-hidden="true"></span><span class="botonTexto">Login</span></a>
+      <a class="boton" href="/admin/dashboard"><span class="icono iconoProductos" aria-hidden="true"></span><span class="botonTexto">Dashboard</span></a>
+      <a class="boton" href="/admin/productos/nuevo"><span class="icono iconoMas" aria-hidden="true"></span><span class="botonTexto">Alta de producto</span></a>
+      <a class="boton" href="/login"><span class="icono iconoSalir" aria-hidden="true"></span><span class="botonTexto">Cerrar sesión</span></a>
+      <button type="button" id="botonTema" class="boton botonIcono"><span class="icono iconoLuna" aria-hidden="true"></span></button>
+    </nav>
+  </header>

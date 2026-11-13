@@ -5,6 +5,7 @@ const express = require("express");
 const cors = require("cors");
 const sequelize = require("./baseDeDatos/conexion");
 const productosRutas = require("./rutas/productosRutas");
+const ventasRutas = require("./rutas/ventasRutas");
 const panelRutas = require("./rutas/panelRutas");
 const { rutaNoEncontrada, manejarErrores } = require("./middlewares/errores");
 
@@ -25,6 +26,7 @@ app.use("/imagenes", express.static(path.join(__dirname, "..", "imagenes")));
 app.use(express.static(path.join(__dirname, "..", "publico")));
 
 app.use("/api/productos", productosRutas);
+app.use("/api/ventas", ventasRutas);
 app.use("/api", rutaNoEncontrada);
 app.use(panelRutas);
 app.use(manejarErrores);

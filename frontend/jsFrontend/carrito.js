@@ -1,5 +1,6 @@
 // Lógica de la pantalla de carrito (carrito.html).
 import { config } from "./config.js";
+import { crearVenta } from "./api.js";
 import { formatearPrecio } from "./formato.js";
 import { crearIcono, montarLayout } from "./layout.js";
 import {
@@ -10,16 +11,18 @@ import {
   quitarDelCarrito,
   totalCarrito,
   totalUnidades,
-  confirmarCompra,
+  guardarCompra,
 } from "./sesion.js";
 
 const nombre = obtenerNombre();
+let enviando = false;
 
 const elementos = {
   lista: document.getElementById("lineasCarrito"),
   vacio: document.getElementById("carritoVacio"),
   unidades: document.getElementById("resumenUnidades"),
   total: document.getElementById("resumenTotal"),
+  error: document.getElementById("errorCompra"),
   botonConfirmar: document.getElementById("botonConfirmar"),
   modal: document.getElementById("modalConfirmar"),
   textoModal: document.getElementById("textoModal"),
@@ -35,6 +38,9 @@ function iniciar() {
   elementos.botonConfirmar.addEventListener("click", abrirModal);
   elementos.botonCancelar.addEventListener("click", () => elementos.modal.close());
   elementos.botonAceptar.addEventListener("click", finalizarCompra);
+  elementos.modal.addEventListener("cancel", (evento) => {
+    if (enviando) evento.preventDefault();
+  });
 }
 
 function pintarCarrito() {
@@ -47,6 +53,7 @@ function pintarCarrito() {
   elementos.unidades.textContent = totalUnidades();
   elementos.total.textContent = formatearPrecio(totalCarrito());
   elementos.botonConfirmar.disabled = vacio;
+  elementos.error.hidden = true;
 }
 
 function crearLinea(item) {
@@ -136,14 +143,40 @@ function abrirModal() {
   elementos.modal.showModal();
 }
 
-function finalizarCompra() {
-  if (obtenerCarrito().length === 0) {
+async function finalizarCompra() {
+  const carrito = obtenerCarrito();
+  if (enviando) return;
+  if (carrito.length === 0) {
     elementos.modal.close();
     return;
   }
-  elementos.botonAceptar.disabled = true;
-  confirmarCompra();
-  window.location.href = "ticket.html";
+
+  bloquearModal(true);
+  try {
+    const venta = await crearVenta({ nombre, productos: carrito });
+    guardarCompra(venta);
+    window.location.href = "ticket.html";
+  } catch (error) {
+    bloquearModal(false);
+    elementos.modal.close();
+    mostrarError(error, carrito);
+  }
+}
+
+function bloquearModal(bloquear) {
+  enviando = bloquear;
+  elementos.botonAceptar.disabled = bloquear;
+  elementos.botonCancelar.disabled = bloquear;
+  elementos.botonAceptar.textContent = bloquear ? "Guardando…" : "Confirmar";
+}
+
+function mostrarError(error, carrito) {
+  const faltantes = carrito.filter((item) => error.productosNoDisponibles?.includes(item.id));
+  elementos.error.textContent = faltantes.length > 0
+    ? `Ya no están a la venta: ${faltantes.map((item) => item.nombre).join(", ")}. Quitalos del carrito para continuar.`
+    : error.message;
+  elementos.error.hidden = false;
+  elementos.botonConfirmar.focus();
 }
 
 if (!nombre) {

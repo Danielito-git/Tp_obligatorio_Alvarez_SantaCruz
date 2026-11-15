@@ -3,6 +3,7 @@ const { DataTypes } = require("sequelize");
 const sequelize = require("../baseDeDatos/conexion");
 
 const tiposProducto = ["ssd", "procesadores"];
+const nombresTipo = { ssd: "Memorias SSD", procesadores: "Procesadores" };
 
 const Producto = sequelize.define(
   "Producto",
@@ -42,4 +43,4 @@ const Producto = sequelize.define(
   { tableName: "productos" }
 );
 
-module.exports = { Producto, tiposProducto };
+module.exports = { Producto, tiposProducto, nombresTipo };

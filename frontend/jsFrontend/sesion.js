@@ -74,17 +74,9 @@ export function quitarDelCarrito(idProducto) {
   guardarCarrito(obtenerCarrito().filter((item) => item.id !== idProducto));
 }
 
-export function confirmarCompra() {
-  const carrito = obtenerCarrito();
-  const compra = {
-    nombre: obtenerNombre(),
-    fecha: new Date().toISOString(),
-    productos: carrito,
-    total: totalCarrito(),
-  };
-  sessionStorage.setItem(claveCompra, JSON.stringify(compra));
+export function guardarCompra(venta) {
+  sessionStorage.setItem(claveCompra, JSON.stringify(venta));
   guardarCarrito([]);
-  return compra;
 }
 
 export function obtenerCompra() {

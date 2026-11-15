@@ -121,6 +121,7 @@ img {
 .iconoQuitar { mask-image: url("../img/iconos/quitar.svg"); }
 .iconoProductos { mask-image: url("../img/iconos/productos.svg"); }
 .iconoSalir { mask-image: url("../img/iconos/salir.svg"); }
+.iconoDescargar { mask-image: url("../img/iconos/descargar.svg"); }
 
 .boton {
   display: inline-flex;

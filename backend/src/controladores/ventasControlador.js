@@ -1,8 +1,19 @@
-// Guarda las ventas del cliente con precios tomados de la base; lo usa ventasRutas.js.
+// Guarda las ventas del cliente y genera su ticket en PDF; lo usa ventasRutas.js.
+const fs = require("fs");
+const path = require("path");
+const ejs = require("ejs");
 const sequelize = require("../baseDeDatos/conexion");
 const { Producto, Venta, DetalleVenta } = require("../modelos/asociaciones");
+const { nombresTipo } = require("../modelos/producto");
+const { formatearPrecio, formatearFecha } = require("../utilidades/formato");
+const { generarPdf } = require("../utilidades/generarPdf");
 
 const aCentavos = (valor) => Math.round(valor * 100);
+
+const plantillaTicket = path.join(__dirname, "..", "vistas", "ticketPdf.ejs");
+const logo = `data:image/svg+xml;base64,${fs
+  .readFileSync(path.join(__dirname, "..", "..", "publico", "img", "logo.svg"))
+  .toString("base64")}`;
 
 async function crearVenta(req, res, next) {
   try {
@@ -66,4 +77,54 @@ async function crearVenta(req, res, next) {
   }
 }
 
-module.exports = { crearVenta };
+async function descargarTicket(req, res, next) {
+  try {
+    const venta = await Venta.findByPk(req.idVenta, {
+      include: {
+        model: Producto,
+        as: "productos",
+        attributes: ["id", "tipo"],
+        through: { attributes: ["cantidad", "precioUnitario", "nombreProducto"] },
+      },
+      order: [[{ model: Producto, as: "productos" }, "id", "ASC"]],
+    });
+    if (!venta) {
+      return res.status(404).json({ error: "No existe una venta con ese número." });
+    }
+
+    const lineas = venta.productos.map((producto) => {
+      const { cantidad, precioUnitario, nombreProducto } = producto.DetalleVenta;
+      return {
+        id: producto.id,
+        nombre: nombreProducto,
+        categoria: nombresTipo[producto.tipo] ?? producto.tipo,
+        cantidad,
+        precio: formatearPrecio(precioUnitario),
+        subtotal: formatearPrecio((aCentavos(precioUnitario) * cantidad) / 100),
+      };
+    });
+
+    const html = await ejs.renderFile(plantillaTicket, {
+      empresa: "Technologia S.A.",
+      logo,
+      venta: {
+        id: venta.id,
+        nombre: venta.nombreCliente,
+        fecha: formatearFecha(venta.fecha),
+        total: formatearPrecio(venta.total),
+      },
+      lineas,
+    });
+    const pdf = await generarPdf(html);
+
+    res.set({
+      "Content-Type": "application/pdf",
+      "Content-Disposition": `attachment; filename="ticket-venta-${venta.id}.pdf"`,
+    });
+    res.send(pdf);
+  } catch (error) {
+    next(error);
+  }
+}
+
+module.exports = { crearVenta, descargarTicket };

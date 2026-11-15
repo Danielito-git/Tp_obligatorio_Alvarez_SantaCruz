@@ -1,5 +1,6 @@
 // Lógica de la pantalla de ticket (ticket.html).
 import { config } from "./config.js";
+import { descargarTicket } from "./api.js";
 import { formatearFecha, formatearPrecio } from "./formato.js";
 import { montarLayout } from "./layout.js";
 import { obtenerCompra, obtenerNombre, reiniciarCompra } from "./sesion.js";
@@ -16,10 +17,37 @@ function iniciar() {
   document.getElementById("ticketLineas").replaceChildren(...compra.productos.map(crearFila));
   document.getElementById("ticketTotal").textContent = formatearPrecio(compra.total);
 
+  const botonDescargar = document.getElementById("botonDescargar");
+  botonDescargar.hidden = !compra.id;
+  botonDescargar.addEventListener("click", () => bajarPdf(botonDescargar));
+
   document.getElementById("botonSalir").addEventListener("click", () => {
     reiniciarCompra();
     window.location.replace("index.html");
   });
+}
+
+async function bajarPdf(boton) {
+  const texto = boton.querySelector(".botonTexto");
+  const error = document.getElementById("errorTicket");
+  boton.disabled = true;
+  texto.textContent = "Generando PDF…";
+  error.hidden = true;
+
+  try {
+    const pdf = await descargarTicket(compra.id);
+    const enlace = document.createElement("a");
+    enlace.href = URL.createObjectURL(pdf);
+    enlace.download = `ticket-venta-${compra.id}.pdf`;
+    enlace.click();
+    setTimeout(() => URL.revokeObjectURL(enlace.href), 1000);
+  } catch (problema) {
+    error.textContent = problema.message;
+    error.hidden = false;
+  } finally {
+    boton.disabled = false;
+    texto.textContent = "Descargar PDF";
+  }
 }
 
 function crearFila(item) {

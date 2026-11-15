@@ -15,6 +15,10 @@
     "ejs": "^7.0.2",
     "express": "^5.3.0",
     "mysql2": "^3.24.6",
+    "puppeteer": "^24.43.1",
     "sequelize": "^6.37.8"
+  },
+  "allowScripts": {
+    "puppeteer@24.43.1": true
   }
 }

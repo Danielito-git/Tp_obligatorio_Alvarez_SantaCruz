@@ -1,0 +1,108 @@
+<%# Ticket de una venta guardada, pensado para convertirse en PDF; lo renderiza ventasControlador.js. %>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Ticket de venta N° <%= venta.id %> - Technologia</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: #171b2b;
+      font-family: "Segoe UI", Roboto, Arial, sans-serif;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .cabecera {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding-bottom: 14px;
+      border-bottom: 2px solid #4f46e5;
+    }
+    .cabecera img { width: 56px; height: 56px; }
+    .empresa { margin: 0; color: #5b6278; font-weight: 600; }
+    h1 { margin: 0; font-size: 22px; }
+    .datos {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 4px 16px;
+      margin: 18px 0;
+    }
+    .datos dt { color: #5b6278; }
+    .datos dd { margin: 0; font-weight: 700; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 9px 6px; border-bottom: 1px solid #dadfee; text-align: right; }
+    th:first-child, td:first-child { text-align: left; }
+    thead th {
+      color: #5b6278;
+      font-size: 11px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .codigo { display: block; color: #5b6278; font-size: 11px; }
+    tfoot th, tfoot td { border-bottom: 0; font-size: 16px; font-weight: 800; }
+    tfoot td { color: #4f46e5; }
+    .gracias { margin: 24px 0 0; color: #5b6278; text-align: center; }
+    .pie {
+      margin-top: 28px;
+      padding-top: 10px;
+      border-top: 1px solid #dadfee;
+      color: #5b6278;
+      font-size: 11px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="cabecera">
+    <img src="<%= logo %>" alt="">
+    <div>
+      <p class="empresa"><%= empresa %></p>
+      <h1>Ticket de compra</h1>
+    </div>
+  </div>
+
+  <dl class="datos">
+    <dt>Venta N°</dt>
+    <dd><%= venta.id %></dd>
+    <dt>Cliente</dt>
+    <dd><%= venta.nombre %></dd>
+    <dt>Fecha</dt>
+    <dd><%= venta.fecha %></dd>
+  </dl>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Producto</th>
+        <th>Cant.</th>
+        <th>Precio unit.</th>
+        <th>Subtotal</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% lineas.forEach((linea) => { %>
+      <tr>
+        <td>
+          <%= linea.nombre %>
+          <span class="codigo"><%= linea.categoria %> · Cód. <%= linea.id %></span>
+        </td>
+        <td><%= linea.cantidad %></td>
+        <td><%= linea.precio %></td>
+        <td><%= linea.subtotal %></td>
+      </tr>
+      <% }) %>
+    </tbody>
+    <tfoot>
+      <tr>
+        <th colspan="3">Total</th>
+        <td><%= venta.total %></td>
+      </tr>
+    </tfoot>
+  </table>
+
+  <p class="gracias">¡Gracias por tu compra!</p>
+  <p class="pie">Technologia · Programación 3 · Alumnos: Daniel Alvarez, Luciano Santa Cruz</p>
+</body>
+</html>

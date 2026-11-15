@@ -1,4 +1,4 @@
-// Se comunica con la API del backend: productos paginados (productos.js) y ventas (carrito.js).
+// Se comunica con la API del backend: productos paginados (productos.js), ventas (carrito.js) y ticket en PDF (ticket.js).
 import { config } from "./config.js";
 
 export async function obtenerProductos({ tipo, pagina = 1, limite = 6 }) {
@@ -32,4 +32,19 @@ export async function crearVenta({ nombre, productos }) {
     throw error;
   }
   return datos;
+}
+
+export async function descargarTicket(idVenta) {
+  let respuesta;
+  try {
+    respuesta = await fetch(`${config.urlApi}/ventas/${idVenta}/ticket`);
+  } catch (error) {
+    throw new Error("No pudimos conectarnos con el servidor. Revisá la conexión e intentá de nuevo.");
+  }
+
+  if (!respuesta.ok) {
+    const datos = await respuesta.json().catch(() => ({}));
+    throw new Error(datos.error ?? `No se pudo generar el PDF (error ${respuesta.status}).`);
+  }
+  return respuesta.blob();
 }

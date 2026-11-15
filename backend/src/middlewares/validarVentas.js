@@ -1,4 +1,4 @@
-// Valida el nombre y los productos de una venta antes de guardarla; lo usa ventasRutas.js.
+// Valida los datos de una venta antes de guardarla y el número de venta del ticket; lo usa ventasRutas.js.
 const nombreMin = 2;
 const nombreMax = 30;
 const patronNombre = /^\p{L}[\p{L} '-]*$/u;
@@ -48,4 +48,13 @@ function validarVenta(req, res, next) {
   next();
 }
 
-module.exports = { validarVenta };
+function validarIdVenta(req, res, next) {
+  const id = Number(req.params.id);
+  if (!Number.isInteger(id) || id < 1) {
+    return res.status(400).json({ error: "El número de venta debe ser un entero mayor a 0." });
+  }
+  req.idVenta = id;
+  next();
+}
+
+module.exports = { validarVenta, validarIdVenta };

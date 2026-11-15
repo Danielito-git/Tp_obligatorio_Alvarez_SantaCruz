@@ -10,6 +10,7 @@ function iniciar() {
   montarLayout({ titulo: "Ticket", pantalla: "ticket" });
 
   document.getElementById("ticketEmpresa").textContent = config.empresa;
+  document.getElementById("ticketNumero").textContent = compra.id ?? "-";
   document.getElementById("ticketCliente").textContent = compra.nombre;
   document.getElementById("ticketFecha").textContent = formatearFecha(compra.fecha);
   document.getElementById("ticketLineas").replaceChildren(...compra.productos.map(crearFila));

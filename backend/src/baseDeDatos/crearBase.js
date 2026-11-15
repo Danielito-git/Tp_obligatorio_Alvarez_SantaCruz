@@ -20,6 +20,10 @@ async function crearBase() {
 }
 
 crearBase().catch((error) => {
-  console.error("No se pudo crear la base de datos:", error.message);
+  console.error("No se pudo crear la base de datos:");
+  console.error(error);
+  console.error("Codigo:", error.code);
+  console.error("Mensaje:", error.message);
+  console.error("Estado SQL:", error.sqlState);
   process.exit(1);
 });

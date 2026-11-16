@@ -75,6 +75,51 @@
     }
   },
   {
+    "nombre": "Kingston KC3000 2 TB",
+    "precio": 249999,
+    "imagen": "imagenes/productos/kingstonKc30002Tb.svg",
+    "tipo": "ssd",
+    "activo": true,
+    "atributos": {
+      "marca": "Kingston",
+      "capacidad": "2 TB",
+      "formato": "M.2 2280",
+      "interfaz": "NVMe PCIe 4.0",
+      "lectura": 7000,
+      "escritura": 7000
+    }
+  },
+  {
+    "nombre": "Samsung 980 1 TB",
+    "precio": 99999,
+    "imagen": "imagenes/productos/samsung9801Tb.svg",
+    "tipo": "ssd",
+    "activo": true,
+    "atributos": {
+      "marca": "Samsung",
+      "capacidad": "1 TB",
+      "formato": "M.2 2280",
+      "interfaz": "NVMe PCIe 3.0",
+      "lectura": 3500,
+      "escritura": 3000
+    }
+  },
+  {
+    "nombre": "Crucial T500 2 TB",
+    "precio": 289999,
+    "imagen": "imagenes/productos/crucialT5002Tb.svg",
+    "tipo": "ssd",
+    "activo": true,
+    "atributos": {
+      "marca": "Crucial",
+      "capacidad": "2 TB",
+      "formato": "M.2 2280",
+      "interfaz": "NVMe PCIe 4.0",
+      "lectura": 7400,
+      "escritura": 7000
+    }
+  },
+  {
     "nombre": "AMD Ryzen 5 5600",
     "precio": 159999,
     "imagen": "imagenes/productos/amdRyzen55600.svg",
@@ -101,7 +146,7 @@
       "nucleos": 8,
       "hilos": 16,
       "frecuenciaBase": 4.2,
-      "frecuenciaTurbo": 5.0,
+      "frecuenciaTurbo": 5,
       "socket": "AM5",
       "graficosIntegrados": true
     }
@@ -149,7 +194,55 @@
       "nucleos": 24,
       "hilos": 32,
       "frecuenciaBase": 3.2,
-      "frecuenciaTurbo": 6.0,
+      "frecuenciaTurbo": 6,
+      "socket": "LGA 1700",
+      "graficosIntegrados": true
+    }
+  },
+  {
+    "nombre": "AMD Ryzen 5 7600X",
+    "precio": 269999,
+    "imagen": "imagenes/productos/amdRyzen57600x.svg",
+    "tipo": "procesadores",
+    "activo": true,
+    "atributos": {
+      "marca": "AMD",
+      "nucleos": 6,
+      "hilos": 12,
+      "frecuenciaBase": 4.7,
+      "frecuenciaTurbo": 5.3,
+      "socket": "AM5",
+      "graficosIntegrados": true
+    }
+  },
+  {
+    "nombre": "AMD Ryzen 9 7950X",
+    "precio": 749999,
+    "imagen": "imagenes/productos/amdRyzen97950x.svg",
+    "tipo": "procesadores",
+    "activo": true,
+    "atributos": {
+      "marca": "AMD",
+      "nucleos": 16,
+      "hilos": 32,
+      "frecuenciaBase": 4.5,
+      "frecuenciaTurbo": 5.7,
+      "socket": "AM5",
+      "graficosIntegrados": true
+    }
+  },
+  {
+    "nombre": "Intel Core i7-14700K",
+    "precio": 479999,
+    "imagen": "imagenes/productos/intelCoreI714700k.svg",
+    "tipo": "procesadores",
+    "activo": true,
+    "atributos": {
+      "marca": "Intel",
+      "nucleos": 20,
+      "hilos": 28,
+      "frecuenciaBase": 3.4,
+      "frecuenciaTurbo": 5.6,
       "socket": "LGA 1700",
       "graficosIntegrados": true
     }

@@ -1,4 +1,4 @@
-// Guarda las ventas del cliente y genera su ticket en PDF; lo usa ventasRutas.js.
+// Guarda las ventas del cliente, las lista con sus productos y genera su ticket en PDF; lo usa ventasRutas.js.
 const fs = require("fs");
 const path = require("path");
 const ejs = require("ejs");
@@ -77,6 +77,47 @@ async function crearVenta(req, res, next) {
   }
 }
 
+async function listarVentas(req, res, next) {
+  try {
+    // include trae, por cada venta, sus productos a traves de la tabla intermedia DetalleVenta.
+    const ventas = await Venta.findAll({
+      include: {
+        model: Producto,
+        as: "productos",
+        attributes: ["id", "tipo"],
+        through: { attributes: ["cantidad", "precioUnitario", "nombreProducto"] },
+      },
+      order: [
+        ["fecha", "DESC"],
+        ["id", "DESC"],
+        [{ model: Producto, as: "productos" }, "id", "ASC"],
+      ],
+    });
+
+    res.json(
+      ventas.map((venta) => ({
+        id: venta.id,
+        nombre: venta.nombreCliente,
+        fecha: venta.fecha,
+        total: venta.total,
+        productos: venta.productos.map((producto) => {
+          const { cantidad, precioUnitario, nombreProducto } = producto.DetalleVenta;
+          return {
+            id: producto.id,
+            nombre: nombreProducto,
+            tipo: producto.tipo,
+            precio: precioUnitario,
+            cantidad,
+            subtotal: (aCentavos(precioUnitario) * cantidad) / 100,
+          };
+        }),
+      }))
+    );
+  } catch (error) {
+    next(error);
+  }
+}
+
 async function descargarTicket(req, res, next) {
   try {
     const venta = await Venta.findByPk(req.idVenta, {
@@ -127,4 +168,4 @@ async function descargarTicket(req, res, next) {
   }
 }
 
-module.exports = { crearVenta, descargarTicket };
+module.exports = { crearVenta, listarVentas, descargarTicket };

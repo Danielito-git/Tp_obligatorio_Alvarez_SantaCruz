@@ -1,9 +1,10 @@
-// Valida los datos de una venta antes de guardarla y el número de venta del ticket; lo usa ventasRutas.js.
+// Valida los datos de una venta antes de guardarla, el número de venta y el paginado del listado; lo usa ventasRutas.js.
 const nombreMin = 2;
 const nombreMax = 30;
 const patronNombre = /^\p{L}[\p{L} '-]*$/u;
 const lineasMaximas = 50;
 const cantidadMaxima = 99;
+const limiteVentasMaximo = 50;
 
 function validarVenta(req, res, next) {
   const { nombre, productos } = req.body ?? {};
@@ -57,4 +58,19 @@ function validarIdVenta(req, res, next) {
   next();
 }
 
-module.exports = { validarVenta, validarIdVenta };
+function validarListadoVentas(req, res, next) {
+  const pagina = Number(req.query.pagina ?? 1);
+  const limite = Number(req.query.limite ?? 10);
+
+  if (!Number.isInteger(pagina) || pagina < 1) {
+    return res.status(400).json({ error: "La página debe ser un número entero mayor a 0." });
+  }
+  if (!Number.isInteger(limite) || limite < 1 || limite > limiteVentasMaximo) {
+    return res.status(400).json({ error: `El límite debe ser un número entero entre 1 y ${limiteVentasMaximo}.` });
+  }
+
+  req.listado = { pagina, limite };
+  next();
+}
+
+module.exports = { validarVenta, validarIdVenta, validarListadoVentas };

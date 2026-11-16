@@ -1,7 +1,7 @@
 // Datos generales de la app (nombre, alumnos, categorías y sus atributos); lo usan todas las pantallas.
 export const config = {
   nombreApp: "Technologia",
-  eslogan: "Autoservicio de componentes de PC",
+  eslogan: "Tienda de componentes de PC",
   empresa: "Technologia S.A.",
   alumnos: ["Daniel Alvarez", "Luciano Santa Cruz"],
 
@@ -37,5 +37,7 @@ export const config = {
 
   productosPorPagina: 6,
 
-  urlLoginAdmin: null,
+  urlApi: "http://localhost:3000/api",
+
+  urlLoginAdmin: "http://localhost:3000/login",
 };

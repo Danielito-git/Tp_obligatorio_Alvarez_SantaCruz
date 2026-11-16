@@ -1,6 +1,6 @@
 // Reglas para validar el nombre del cliente; lo usa bienvenida.js.
 export const nombreMin = 2;
-export const nombreMax = 10;
+export const nombreMax = 30;
 
 const patronNombre = /^\p{L}[\p{L} '-]*$/u;
 

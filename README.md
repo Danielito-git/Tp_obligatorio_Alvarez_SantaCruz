@@ -1,6 +1,6 @@
 Para poder levantar el proyecto:
 
-Desde la carpeta `backend`(copiar `.env.ejemplo` como `.env` y completar los datos, incluida `claveJwt`):
+Desde la carpeta `backend` o usando `cd backend`(copiar `.env.ejemplo` como `.env` y completar los datos):
 
 ```bash
 npm install
@@ -12,6 +12,10 @@ npm run crearBase
 
 ```bash
 npm run cargarProductos
+```
+
+```bash
+npm run cargarAdmin
 ```
 
 ```bash

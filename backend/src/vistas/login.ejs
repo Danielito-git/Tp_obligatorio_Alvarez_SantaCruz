@@ -8,8 +8,12 @@
       <p class="bienvenidaTexto">Ingresá con tu cuenta de administrador.</p>
 
       <form id="formLogin" class="formulario" action="/login" method="POST">
+        <% if (error) { %>
+        <p class="mensajeError" role="alert"><%= error %></p>
+        <% } %>
+
         <label for="correo" class="formularioEtiqueta">Correo</label>
-        <input type="email" id="correo" name="correo" class="formularioCampo" autocomplete="username" required>
+        <input type="email" id="correo" name="correo" class="formularioCampo" autocomplete="username" value="<%= correo %>" required>
 
         <label for="contrasenia" class="formularioEtiqueta">Contraseña</label>
         <input type="password" id="contrasenia" name="contrasenia" class="formularioCampo" autocomplete="current-password" required>
@@ -18,16 +22,17 @@
           <span class="botonTexto">Ingresar</span>
           <span class="icono iconoContinuar" aria-hidden="true"></span>
         </button>
-        <button type="button" id="accesoRapido" class="boton">Acceso rápido (testeo)</button>
+        <button type="button" id="accesoRapido" class="boton" data-correo="<%= accesoRapido.correo %>" data-contrasenia="<%= accesoRapido.contrasenia %>">Acceso rápido (testeo)</button>
       </form>
     </section>
   </main>
 
-  <!-- Cambiar mas tarde -->
   <script>
-    document.getElementById('accesoRapido').addEventListener('click', () => {
-      document.getElementById('correo').value = 'admin@correo.com';
-      document.getElementById('contrasenia').value = '123456';
+    // Autocompleta el formulario con el administrador de prueba.
+    const botonRapido = document.getElementById('accesoRapido');
+    botonRapido.addEventListener('click', () => {
+      document.getElementById('correo').value = botonRapido.dataset.correo;
+      document.getElementById('contrasenia').value = botonRapido.dataset.contrasenia;
     });
   </script>
 

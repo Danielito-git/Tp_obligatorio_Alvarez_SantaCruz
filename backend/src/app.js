@@ -3,11 +3,14 @@ require("./entorno");
 const path = require("path");
 const express = require("express");
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
 const sequelize = require("./baseDeDatos/conexion");
 const productosRutas = require("./rutas/productosRutas");
 const ventasRutas = require("./rutas/ventasRutas");
+const usuariosRutas = require("./rutas/usuariosRutas");
 const panelRutas = require("./rutas/panelRutas");
 const { rutaNoEncontrada, manejarErrores } = require("./middlewares/errores");
+const adminRapido = require("./datos/adminRapido");
 
 const app = express();
 const puerto = Number(process.env.puerto ?? 3000);
@@ -19,19 +22,26 @@ const origenesPermitidos = (process.env.origenesPermitidos ?? "")
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "vistas"));
 app.locals.urlTienda = process.env.urlTienda ?? "http://127.0.0.1:5500/frontend/index.html";
+app.locals.accesoRapido = adminRapido;
 
 app.use(cors({ origin: origenesPermitidos }));
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
 app.use("/imagenes", express.static(path.join(__dirname, "..", "imagenes")));
 app.use(express.static(path.join(__dirname, "..", "publico")));
 
 app.use("/api/productos", productosRutas);
 app.use("/api/ventas", ventasRutas);
+app.use("/api/usuarios", usuariosRutas);
 app.use("/api", rutaNoEncontrada);
 app.use(panelRutas);
 app.use(manejarErrores);
 
 async function iniciar() {
+  if (!process.env.claveJwt) {
+    throw new Error("Falta claveJwt en backend/.env");
+  }
   await sequelize.authenticate();
   await sequelize.sync();
   app.listen(puerto, () => {

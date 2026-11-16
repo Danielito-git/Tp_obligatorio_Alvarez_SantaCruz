@@ -133,3 +133,7 @@
   border-color: var(--error);
   color: var(--error);
 }
+
+.formularioSalir {
+  display: contents;
+}

@@ -1,6 +1,6 @@
 Para poder levantar el proyecto:
 
-Desde la carpeta `backend`:
+Desde la carpeta `backend`(copiar `.env.ejemplo` como `.env` y completar los datos, incluida `claveJwt`):
 
 ```bash
 npm install

@@ -1,5 +1,6 @@
-// Lógica de los endpoints de productos del cliente; lo usa productosRutas.js.
+// Lógica de los endpoints de productos (listado y detalle del cliente, alta del administrador); lo usa productosRutas.js.
 const { Producto } = require("../modelos/producto");
+const { borrarImagenSubida } = require("../utilidades/imagenes");
 
 function aRespuesta(producto, req) {
   const datos = producto.toJSON();
@@ -54,4 +55,14 @@ async function obtenerProducto(req, res, next) {
   }
 }
 
-module.exports = { listarProductos, obtenerProducto };
+async function crearProducto(req, res, next) {
+  try {
+    const producto = await Producto.create({ ...req.productoNuevo, activo: true });
+    res.status(201).json(aRespuesta(producto, req));
+  } catch (error) {
+    await borrarImagenSubida(req.file);
+    next(error);
+  }
+}
+
+module.exports = { listarProductos, obtenerProducto, crearProducto };

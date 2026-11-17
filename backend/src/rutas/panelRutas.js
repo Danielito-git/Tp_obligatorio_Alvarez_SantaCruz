@@ -2,7 +2,7 @@
 const { Router } = require("express");
 const { cargarSesion, verificarAdmin } = require("../middlewares/sesion");
 const { validarLogin } = require("../middlewares/validarUsuarios");
-const { mostrarLogin, iniciarSesion, cerrarSesion, mostrarDashboard } = require("../controladores/panelControlador");
+const { mostrarLogin, iniciarSesion, cerrarSesion, mostrarDashboard, mostrarAlta } = require("../controladores/panelControlador");
 
 const router = Router();
 
@@ -13,8 +13,9 @@ router.get("/login", mostrarLogin);
 router.post("/login", validarLogin, iniciarSesion);
 router.post("/logout", cerrarSesion);
 
-// Todo lo que cuelga de /admin exige iniciar sesion: verificarAdmin va antes que las rutas que protege.
+// Todo lo que cuelga de /admin exige sesión: verificarAdmin va antes que las rutas que protege.
 router.use("/admin", verificarAdmin);
 router.get("/admin/dashboard", mostrarDashboard);
+router.get("/admin/productos/nuevo", mostrarAlta);
 
 module.exports = router;

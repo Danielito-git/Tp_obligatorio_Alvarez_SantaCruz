@@ -1,6 +1,6 @@
-// Muestra las vistas EJS del panel de administración y maneja el login y el cierre de sesion.
+// Muestra las vistas EJS del panel de administración y maneja el login y el cierre de sesión; lo usa panelRutas.js.
 const bcrypt = require("bcrypt");
-const { Producto, tiposProducto, nombresTipo } = require("../modelos/producto");
+const { Producto, tiposProducto, nombresTipo, atributosPorTipo } = require("../modelos/producto");
 const { Usuario } = require("../modelos/usuario");
 const { nombreCookie, opcionesBase, opcionesCookie, crearToken } = require("../utilidades/token");
 const { formatearPrecio } = require("../utilidades/formato");
@@ -8,7 +8,6 @@ const { formatearPrecio } = require("../utilidades/formato");
 const iconosTipo = { ssd: "iconoSsd", procesadores: "iconoProcesador" };
 
 function mostrarLogin(req, res) {
-  // Para no pedir sesion otra vez
   if (req.admin) return res.redirect("/admin/dashboard");
   res.render("login", { error: null, correo: "" });
 }
@@ -20,7 +19,6 @@ async function iniciarSesion(req, res, next) {
     const correcta = usuario ? await bcrypt.compare(contrasenia, usuario.contraseniaHash) : false;
 
     if (!correcta) {
-      // Mensaje de error
       return res.status(401).render("login", { error: "Correo o contraseña incorrectos.", correo });
     }
 
@@ -46,4 +44,8 @@ async function mostrarDashboard(req, res) {
   res.render("dashboard", { secciones, formatearPrecio });
 }
 
-module.exports = { mostrarLogin, iniciarSesion, cerrarSesion, mostrarDashboard };
+function mostrarAlta(req, res) {
+  res.render("formularioProducto", { tiposProducto, nombresTipo, atributosPorTipo });
+}
+
+module.exports = { mostrarLogin, iniciarSesion, cerrarSesion, mostrarDashboard, mostrarAlta };

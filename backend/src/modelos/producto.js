@@ -5,6 +5,26 @@ const sequelize = require("../baseDeDatos/conexion");
 const tiposProducto = ["ssd", "procesadores"];
 const nombresTipo = { ssd: "Memorias SSD", procesadores: "Procesadores" };
 
+const atributosPorTipo = {
+  ssd: [
+    { clave: "marca", nombre: "Marca", tipo: "texto" },
+    { clave: "capacidad", nombre: "Capacidad", tipo: "texto" },
+    { clave: "formato", nombre: "Formato", tipo: "texto" },
+    { clave: "interfaz", nombre: "Interfaz", tipo: "texto" },
+    { clave: "lectura", nombre: "Lectura", tipo: "entero", unidad: "MB/s" },
+    { clave: "escritura", nombre: "Escritura", tipo: "entero", unidad: "MB/s" },
+  ],
+  procesadores: [
+    { clave: "marca", nombre: "Marca", tipo: "texto" },
+    { clave: "nucleos", nombre: "Núcleos", tipo: "entero" },
+    { clave: "hilos", nombre: "Hilos", tipo: "entero" },
+    { clave: "frecuenciaBase", nombre: "Frecuencia base", tipo: "decimal", unidad: "GHz" },
+    { clave: "frecuenciaTurbo", nombre: "Frecuencia turbo", tipo: "decimal", unidad: "GHz" },
+    { clave: "socket", nombre: "Socket", tipo: "texto" },
+    { clave: "graficosIntegrados", nombre: "Gráficos integrados", tipo: "booleano" },
+  ],
+};
+
 const Producto = sequelize.define(
   "Producto",
   {
@@ -43,4 +63,4 @@ const Producto = sequelize.define(
   { tableName: "productos" }
 );
 
-module.exports = { Producto, tiposProducto, nombresTipo };
+module.exports = { Producto, tiposProducto, nombresTipo, atributosPorTipo };

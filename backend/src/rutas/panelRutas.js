@@ -2,7 +2,19 @@
 const { Router } = require("express");
 const { cargarSesion, verificarAdmin } = require("../middlewares/sesion");
 const { validarLogin } = require("../middlewares/validarUsuarios");
+<<<<<<< HEAD
 const { mostrarLogin, iniciarSesion, cerrarSesion, mostrarDashboard, mostrarAlta, mostrarEdicion } = require("../controladores/panelControlador");
+=======
+const {
+  mostrarLogin,
+  iniciarSesion,
+  cerrarSesion,
+  mostrarDashboard,
+  mostrarAlta,
+  mostrarEdicion,
+  mostrarUsuarios,
+} = require("../controladores/panelControlador");
+>>>>>>> origin/Rama-daniel
 
 const router = Router();
 
@@ -18,5 +30,9 @@ router.use("/admin", verificarAdmin);
 router.get("/admin/dashboard", mostrarDashboard);
 router.get("/admin/productos/nuevo", mostrarAlta);
 router.get("/admin/productos/:id/editar", mostrarEdicion);
+<<<<<<< HEAD
+=======
+router.get("/admin/usuarios", mostrarUsuarios);
+>>>>>>> origin/Rama-daniel
 
 module.exports = router;

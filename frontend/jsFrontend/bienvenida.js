@@ -63,4 +63,8 @@ function mostrarCategorias() {
       return item;
     })
   );
+<<<<<<< HEAD
 }
+=======
+};
+>>>>>>> origin/Rama-daniel

@@ -143,6 +143,27 @@
   margin-top: 0;
 }
 
+<<<<<<< HEAD
+=======
+.formularioUsuario {
+  max-width: 480px;
+  margin-top: 0;
+}
+
+.mensajeExito {
+  padding: 10px 14px;
+  border-radius: var(--radioChico);
+  background: var(--primarioSuave);
+  color: var(--primario);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.mensajeExito[hidden] {
+  display: none;
+}
+
+>>>>>>> origin/Rama-daniel
 .formularioFila {
   display: flex;
   flex-direction: column;

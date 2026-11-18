@@ -77,6 +77,7 @@ async function crearVenta(req, res, next) {
   }
 }
 
+<<<<<<< HEAD
 async function listarVentas(req, res, next) {
   try {
     // include trae, por cada venta, sus productos a traves de la tabla intermedia DetalleVenta.
@@ -113,6 +114,72 @@ async function listarVentas(req, res, next) {
         }),
       }))
     );
+=======
+// Trae los productos de cada venta con los datos guardados al comprar (cantidad, precio y nombre de ese momento).
+const conProductos = {
+  model: Producto,
+  as: "productos",
+  attributes: ["id", "tipo"],
+  through: { attributes: ["cantidad", "precioUnitario", "nombreProducto"] },
+};
+const productosPorId = [{ model: Producto, as: "productos" }, "id", "ASC"];
+
+function lineasDeVenta(venta) {
+  return venta.productos.map((producto) => {
+    const { cantidad, precioUnitario, nombreProducto } = producto.DetalleVenta;
+    return {
+      id: producto.id,
+      nombre: nombreProducto,
+      tipo: producto.tipo,
+      precio: precioUnitario,
+      cantidad,
+      subtotal: (aCentavos(precioUnitario) * cantidad) / 100,
+    };
+  });
+}
+
+function ventaARespuesta(venta) {
+  return {
+    id: venta.id,
+    nombre: venta.nombreCliente,
+    fecha: venta.fecha,
+    total: venta.total,
+    productos: lineasDeVenta(venta),
+  };
+}
+
+async function buscarVenta(id) {
+  return Venta.findByPk(id, { include: conProductos, order: [productosPorId] });
+}
+
+async function listarVentas(req, res, next) {
+  try {
+    const { pagina, limite } = req.listado;
+    const total = await Venta.count();
+    const totalPaginas = Math.max(1, Math.ceil(total / limite));
+    const paginaValida = Math.min(pagina, totalPaginas);
+
+    const ventas = await Venta.findAll({
+      include: conProductos,
+      order: [["fecha", "DESC"], ["id", "DESC"], productosPorId],
+      limit: limite,
+      offset: (paginaValida - 1) * limite,
+    });
+
+    res.json({ ventas: ventas.map(ventaARespuesta), pagina: paginaValida, totalPaginas, total });
+  } catch (error) {
+    next(error);
+  }
+}
+
+async function obtenerVenta(req, res, next) {
+  try {
+    const venta = await buscarVenta(req.idVenta);
+    if (!venta) {
+      return res.status(404).json({ error: "No existe una venta con ese número." });
+    }
+    res.json(ventaARespuesta(venta));
+>>>>>>> origin/Rama-daniel
   } catch (error) {
     next(error);
   }
@@ -120,30 +187,19 @@ async function listarVentas(req, res, next) {
 
 async function descargarTicket(req, res, next) {
   try {
-    const venta = await Venta.findByPk(req.idVenta, {
-      include: {
-        model: Producto,
-        as: "productos",
-        attributes: ["id", "tipo"],
-        through: { attributes: ["cantidad", "precioUnitario", "nombreProducto"] },
-      },
-      order: [[{ model: Producto, as: "productos" }, "id", "ASC"]],
-    });
+    const venta = await buscarVenta(req.idVenta);
     if (!venta) {
       return res.status(404).json({ error: "No existe una venta con ese número." });
     }
 
-    const lineas = venta.productos.map((producto) => {
-      const { cantidad, precioUnitario, nombreProducto } = producto.DetalleVenta;
-      return {
-        id: producto.id,
-        nombre: nombreProducto,
-        categoria: nombresTipo[producto.tipo] ?? producto.tipo,
-        cantidad,
-        precio: formatearPrecio(precioUnitario),
-        subtotal: formatearPrecio((aCentavos(precioUnitario) * cantidad) / 100),
-      };
-    });
+    const lineas = lineasDeVenta(venta).map((linea) => ({
+      id: linea.id,
+      nombre: linea.nombre,
+      categoria: nombresTipo[linea.tipo] ?? linea.tipo,
+      cantidad: linea.cantidad,
+      precio: formatearPrecio(linea.precio),
+      subtotal: formatearPrecio(linea.subtotal),
+    }));
 
     const html = await ejs.renderFile(plantillaTicket, {
       empresa: "Technologia S.A.",
@@ -168,4 +224,8 @@ async function descargarTicket(req, res, next) {
   }
 }
 
+<<<<<<< HEAD
 module.exports = { crearVenta, listarVentas, descargarTicket };
+=======
+module.exports = { crearVenta, listarVentas, obtenerVenta, descargarTicket };
+>>>>>>> origin/Rama-daniel

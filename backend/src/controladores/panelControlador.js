@@ -3,7 +3,11 @@ const bcrypt = require("bcrypt");
 const { Producto, tiposProducto, nombresTipo, atributosPorTipo } = require("../modelos/producto");
 const { Usuario } = require("../modelos/usuario");
 const { nombreCookie, opcionesBase, opcionesCookie, crearToken } = require("../utilidades/token");
+<<<<<<< HEAD
 const { formatearPrecio } = require("../utilidades/formato");
+=======
+const { formatearPrecio, formatearFecha } = require("../utilidades/formato");
+>>>>>>> origin/Rama-daniel
 
 const iconosTipo = { ssd: "iconoSsd", procesadores: "iconoProcesador" };
 
@@ -55,4 +59,25 @@ async function mostrarEdicion(req, res) {
   res.render("formularioProducto", { producto, tiposProducto, nombresTipo, atributosPorTipo });
 }
 
+<<<<<<< HEAD
 module.exports = { mostrarLogin, iniciarSesion, cerrarSesion, mostrarDashboard, mostrarAlta, mostrarEdicion };
+=======
+async function mostrarUsuarios(req, res, next) {
+  try {
+    const usuarios = await Usuario.findAll({ attributes: ["id", "correo", "createdAt"], order: [["id", "ASC"]] });
+    res.render("usuarios", { usuarios, formatearFecha });
+  } catch (error) {
+    next(error);
+  }
+}
+
+module.exports = {
+  mostrarLogin,
+  iniciarSesion,
+  cerrarSesion,
+  mostrarDashboard,
+  mostrarAlta,
+  mostrarEdicion,
+  mostrarUsuarios,
+};
+>>>>>>> origin/Rama-daniel

@@ -143,8 +143,6 @@
   margin-top: 0;
 }
 
-<<<<<<< HEAD
-=======
 .formularioUsuario {
   max-width: 480px;
   margin-top: 0;
@@ -163,7 +161,6 @@
   display: none;
 }
 
->>>>>>> origin/Rama-daniel
 .formularioFila {
   display: flex;
   flex-direction: column;

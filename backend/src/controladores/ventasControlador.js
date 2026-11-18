@@ -77,44 +77,6 @@ async function crearVenta(req, res, next) {
   }
 }
 
-<<<<<<< HEAD
-async function listarVentas(req, res, next) {
-  try {
-    // include trae, por cada venta, sus productos a traves de la tabla intermedia DetalleVenta.
-    const ventas = await Venta.findAll({
-      include: {
-        model: Producto,
-        as: "productos",
-        attributes: ["id", "tipo"],
-        through: { attributes: ["cantidad", "precioUnitario", "nombreProducto"] },
-      },
-      order: [
-        ["fecha", "DESC"],
-        ["id", "DESC"],
-        [{ model: Producto, as: "productos" }, "id", "ASC"],
-      ],
-    });
-
-    res.json(
-      ventas.map((venta) => ({
-        id: venta.id,
-        nombre: venta.nombreCliente,
-        fecha: venta.fecha,
-        total: venta.total,
-        productos: venta.productos.map((producto) => {
-          const { cantidad, precioUnitario, nombreProducto } = producto.DetalleVenta;
-          return {
-            id: producto.id,
-            nombre: nombreProducto,
-            tipo: producto.tipo,
-            precio: precioUnitario,
-            cantidad,
-            subtotal: (aCentavos(precioUnitario) * cantidad) / 100,
-          };
-        }),
-      }))
-    );
-=======
 // Trae los productos de cada venta con los datos guardados al comprar (cantidad, precio y nombre de ese momento).
 const conProductos = {
   model: Producto,
@@ -179,7 +141,6 @@ async function obtenerVenta(req, res, next) {
       return res.status(404).json({ error: "No existe una venta con ese número." });
     }
     res.json(ventaARespuesta(venta));
->>>>>>> origin/Rama-daniel
   } catch (error) {
     next(error);
   }
@@ -224,8 +185,4 @@ async function descargarTicket(req, res, next) {
   }
 }
 
-<<<<<<< HEAD
-module.exports = { crearVenta, listarVentas, descargarTicket };
-=======
 module.exports = { crearVenta, listarVentas, obtenerVenta, descargarTicket };
->>>>>>> origin/Rama-daniel

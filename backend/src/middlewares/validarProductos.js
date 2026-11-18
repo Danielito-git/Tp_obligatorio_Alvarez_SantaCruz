@@ -1,4 +1,4 @@
-// Valida los parámetros y los datos de las rutas de productos; lo usa productosRutas.js.
+// Valida los parametros y los datos de las rutas de productos; lo usa productosRutas.js.
 const { tiposProducto, atributosPorTipo } = require("../modelos/producto");
 const { borrarImagenSubida } = require("../utilidades/imagenes");
 
@@ -46,14 +46,12 @@ const patronPrecio = /^\d+(\.\d{1,2})?$/;
 const patronEntero = /^\d+$/;
 const patronDecimal = /^\d+(\.\d+)?$/;
 
-
 const descripcionAtributo = {
   texto: `un texto de hasta ${textoMax} caracteres`,
   entero: "un número entero mayor a 0",
   decimal: "un número mayor a 0",
   booleano: "Sí o No",
 };
-
 
 function convertirAtributo(definicion, valor) {
   if (typeof valor !== "string") return null;
@@ -94,36 +92,50 @@ function rechazarProducto(req, res, mensaje) {
   return res.status(400).json({ error: mensaje });
 }
 
+function crearValidadorProducto({ imagenObligatoria }) {
+  return function validarDatosProducto(req, res, next) {
+    const { nombre, precio, tipo, atributos } = req.body ?? {};
 
-function validarProductoNuevo(req, res, next) {
-  const { nombre, precio, tipo, atributos } = req.body ?? {};
+    if (typeof nombre !== "string" || !nombre.trim() || nombre.trim().length > nombreMax) {
+      return rechazarProducto(req, res, `El nombre es obligatorio y puede tener hasta ${nombreMax} caracteres.`);
+    }
+    if (typeof precio !== "string" || !patronPrecio.test(precio.trim()) || Number(precio) <= 0 || Number(precio) > precioMax) {
+      return rechazarProducto(req, res, "El precio debe ser un número mayor a 0, con hasta 2 decimales.");
+    }
+    if (!tiposProducto.includes(tipo)) {
+      return rechazarProducto(req, res, `El tipo debe ser uno de: ${tiposProducto.join(", ")}.`);
+    }
+    if (imagenObligatoria && !req.file) {
+      return rechazarProducto(req, res, "La imagen del producto es obligatoria.");
+    }
 
-  if (typeof nombre !== "string" || !nombre.trim() || nombre.trim().length > nombreMax) {
-    return rechazarProducto(req, res, `El nombre es obligatorio y puede tener hasta ${nombreMax} caracteres.`);
-  }
-  if (typeof precio !== "string" || !patronPrecio.test(precio.trim()) || Number(precio) <= 0 || Number(precio) > precioMax) {
-    return rechazarProducto(req, res, "El precio debe ser un número mayor a 0, con hasta 2 decimales.");
-  }
-  if (!tiposProducto.includes(tipo)) {
-    return rechazarProducto(req, res, `El tipo debe ser uno de: ${tiposProducto.join(", ")}.`);
-  }
-  if (!req.file) {
-    return rechazarProducto(req, res, "La imagen del producto es obligatoria.");
-  }
+    const resultado = validarAtributos(tipo, atributos);
+    if (resultado.error) {
+      return rechazarProducto(req, res, resultado.error);
+    }
 
-  const resultado = validarAtributos(tipo, atributos);
-  if (resultado.error) {
-    return rechazarProducto(req, res, resultado.error);
-  }
-
-  req.productoNuevo = {
-    nombre: nombre.trim(),
-    precio: Number(precio),
-    tipo,
-    imagen: `imagenes/productos/${req.file.filename}`,
-    atributos: resultado.atributos,
+    req.datosProducto = {
+      nombre: nombre.trim(),
+      precio: Number(precio),
+      tipo,
+      atributos: resultado.atributos,
+    };
+    if (req.file) {
+      req.datosProducto.imagen = `imagenes/productos/${req.file.filename}`;
+    }
+    next();
   };
+}
+
+const validarProductoNuevo = crearValidadorProducto({ imagenObligatoria: true });
+const validarProductoEditado = crearValidadorProducto({ imagenObligatoria: false });
+
+function validarEstado(req, res, next) {
+  if (typeof req.body?.activo !== "boolean") {
+    return res.status(400).json({ error: "El campo activo es obligatorio y debe ser true o false." });
+  }
+  req.estadoNuevo = req.body.activo;
   next();
 }
 
-module.exports = { validarListado, validarId, validarProductoNuevo };
+module.exports = { validarListado, validarId, validarProductoNuevo, validarProductoEditado, validarEstado };

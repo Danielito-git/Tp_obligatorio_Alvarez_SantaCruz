@@ -1,4 +1,4 @@
-// Muestra los datos del tipo de producto elegido y manda el formulario de alta a la API; lo carga formularioProducto.ejs.
+// Muestra los datos del tipo de producto elegido y manda el formulario (alta o modificación) a la API; lo carga formularioProducto.ejs.
 const formulario = document.getElementById("formProducto");
 const selectorTipo = document.getElementById("tipo");
 const botonGuardar = document.getElementById("botonGuardar");
@@ -28,7 +28,7 @@ formulario.addEventListener("submit", async (evento) => {
   botonGuardar.disabled = true;
 
   try {
-    const respuesta = await fetch(formulario.dataset.api, { method: "POST", body: new FormData(formulario) });
+    const respuesta = await fetch(formulario.dataset.api, { method: formulario.dataset.metodo, body: new FormData(formulario) });
 
     if (respuesta.status === 401) {
       window.location.href = "/login";

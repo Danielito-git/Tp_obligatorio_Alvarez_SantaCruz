@@ -1,4 +1,4 @@
-// Muestra las vistas EJS del panel de administración y maneja el login y el cierre de sesión; lo usa panelRutas.js.
+// Muestra las vistas EJS del panel de administracion y maneja el login y el cierre de sesion; lo usa panelRutas.js.
 const bcrypt = require("bcrypt");
 const { Producto, tiposProducto, nombresTipo, atributosPorTipo } = require("../modelos/producto");
 const { Usuario } = require("../modelos/usuario");
@@ -45,7 +45,14 @@ async function mostrarDashboard(req, res) {
 }
 
 function mostrarAlta(req, res) {
-  res.render("formularioProducto", { tiposProducto, nombresTipo, atributosPorTipo });
+  res.render("formularioProducto", { producto: null, tiposProducto, nombresTipo, atributosPorTipo });
 }
 
-module.exports = { mostrarLogin, iniciarSesion, cerrarSesion, mostrarDashboard, mostrarAlta };
+async function mostrarEdicion(req, res) {
+  const id = Number(req.params.id);
+  const producto = Number.isInteger(id) && id > 0 ? await Producto.findByPk(id) : null;
+  if (!producto) return res.redirect("/admin/dashboard");
+  res.render("formularioProducto", { producto, tiposProducto, nombresTipo, atributosPorTipo });
+}
+
+module.exports = { mostrarLogin, iniciarSesion, cerrarSesion, mostrarDashboard, mostrarAlta, mostrarEdicion };

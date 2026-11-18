@@ -13,6 +13,9 @@ npm run crearBase
 ```bash
 npm run cargarProductos
 ```
+```bash
+npm run cargarAdmin
+```
 
 ```bash
 npm.cmd run dev

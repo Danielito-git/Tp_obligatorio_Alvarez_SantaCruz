@@ -133,3 +133,111 @@
   border-color: var(--error);
   color: var(--error);
 }
+
+.formularioSalir {
+  display: contents;
+}
+
+.formularioProducto {
+  max-width: 760px;
+  margin-top: 0;
+}
+
+.formularioUsuario {
+  max-width: 480px;
+  margin-top: 0;
+}
+
+.mensajeExito {
+  padding: 10px 14px;
+  border-radius: var(--radioChico);
+  background: var(--primarioSuave);
+  color: var(--primario);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.mensajeExito[hidden] {
+  display: none;
+}
+
+.formularioFila {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.formularioProducto .formularioCampo[type="file"] {
+  padding: 14px 18px;
+  font-size: 1rem;
+}
+
+.formularioGrupo {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 14px;
+  min-width: 0;
+  margin: 8px 0 0;
+  padding: 16px;
+  border: 1px solid var(--borde);
+  border-radius: var(--radioChico);
+}
+
+.formularioGrupo[hidden] {
+  display: none;
+}
+
+.formularioGrupo legend {
+  padding: 0 8px;
+  font-weight: 700;
+}
+
+.formularioAcciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.formularioAcciones .boton {
+  margin-top: 0;
+}
+
+.imagenActual {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--textoSuave);
+  font-size: 0.9rem;
+}
+
+.dialogo {
+  width: min(92vw, 460px);
+  padding: 24px;
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  background: var(--superficie);
+  color: var(--texto);
+  box-shadow: var(--sombra);
+}
+
+.dialogo::backdrop {
+  background: rgb(0 0 0 / 0.5);
+}
+
+.dialogo h2 {
+  margin-bottom: 8px;
+  font-size: 1.25rem;
+}
+
+.dialogo .mensajeError {
+  margin-top: 12px;
+}
+
+.dialogoAcciones {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}

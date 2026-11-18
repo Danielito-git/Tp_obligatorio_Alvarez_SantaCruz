@@ -1,0 +1,92 @@
+<%# Pantalla de alta y de modificación de producto; la muestra panelControlador.js en /admin/productos/nuevo y /admin/productos/:id/editar. %>
+<%# Con producto en null es un alta; con un producto cargado es una modificación. publico/js/formularioProducto.js lo envía a la API. %>
+<% const editando = producto !== null; %>
+<% const tipoElegido = editando ? producto.tipo : tiposProducto[0]; %>
+<%- include('parciales/encabezado', { titulo: editando ? 'Modificar producto' : 'Alta de producto' }) %>
+
+  <main class="panel">
+    <div class="panelCabecera">
+      <h1><%= editando ? 'Modificar producto' : 'Agregar producto' %></h1>
+      <a class="boton" href="/admin/dashboard">
+        <span class="botonTexto">Volver al dashboard</span>
+      </a>
+    </div>
+
+    <section class="panelSeccion">
+      <form id="formProducto" class="formulario formularioProducto" enctype="multipart/form-data"
+            data-api="<%= editando ? `/api/productos/${producto.id}` : '/api/productos' %>"
+            data-metodo="<%= editando ? 'PUT' : 'POST' %>">
+        <p id="mensajeFormulario" class="mensajeError" role="alert" hidden></p>
+
+        <div class="formularioFila">
+          <label for="nombre" class="formularioEtiqueta">Nombre</label>
+          <input type="text" id="nombre" name="nombre" class="formularioCampo" maxlength="120" value="<%= editando ? producto.nombre : '' %>" required>
+        </div>
+
+        <div class="formularioFila">
+          <label for="precio" class="formularioEtiqueta">Precio (ARS)</label>
+          <input type="number" id="precio" name="precio" class="formularioCampo" min="0.01" step="0.01" value="<%= editando ? producto.precio : '' %>" required>
+        </div>
+
+        <div class="formularioFila">
+          <label for="tipo" class="formularioEtiqueta">Tipo de producto</label>
+          <select id="tipo" name="tipo" class="formularioCampo" required>
+            <% tiposProducto.forEach((tipo) => { %>
+            <option value="<%= tipo %>" <%= tipo === tipoElegido ? 'selected' : '' %>><%= nombresTipo[tipo] %></option>
+            <% }) %>
+          </select>
+        </div>
+
+        <div class="formularioFila">
+          <label for="imagen" class="formularioEtiqueta">Imagen (JPG, PNG o WEBP, hasta 2 MB)</label>
+          <% if (editando) { %>
+          <div class="imagenActual">
+            <img src="/<%= producto.imagen %>" alt="Imagen actual de <%= producto.nombre %>" class="tablaImagen" width="48" height="48">
+            <span>Imagen actual. Elegí otra solo si querés cambiarla.</span>
+          </div>
+          <% } %>
+          <input type="file" id="imagen" name="imagen" class="formularioCampo" accept="image/jpeg,image/png,image/webp" <%= editando ? '' : 'required' %>>
+        </div>
+
+        <%# Un grupo de datos por tipo: el script muestra solo el del tipo elegido y deshabilita los otros, así sus campos no se envían. %>
+        <% tiposProducto.forEach((tipo) => { %>
+        <fieldset class="formularioGrupo" data-tipo="<%= tipo %>" <%= tipo === tipoElegido ? '' : 'hidden disabled' %>>
+          <legend>Datos de <%= nombresTipo[tipo].toLowerCase() %></legend>
+          <% atributosPorTipo[tipo].forEach((atributo) => { %>
+          <%# Solo se precargan los datos si el producto es de este tipo: los de otro tipo no tienen estas claves. %>
+          <% const guardado = editando && producto.tipo === tipo ? producto.atributos[atributo.clave] : undefined; %>
+          <% const valor = guardado === undefined ? '' : guardado; %>
+          <% const id = `atributo-${tipo}-${atributo.clave}`; %>
+          <div class="formularioFila">
+            <label for="<%= id %>" class="formularioEtiqueta"><%= atributo.nombre %><%= atributo.unidad ? ` (${atributo.unidad})` : '' %></label>
+            <% if (atributo.tipo === 'booleano') { %>
+            <select id="<%= id %>" name="atributos[<%= atributo.clave %>]" class="formularioCampo" required>
+              <option value="true" <%= guardado === true ? 'selected' : '' %>>Sí</option>
+              <option value="false" <%= guardado === true ? '' : 'selected' %>>No</option>
+            </select>
+            <% } else if (atributo.tipo === 'texto') { %>
+            <input type="text" id="<%= id %>" name="atributos[<%= atributo.clave %>]" class="formularioCampo" maxlength="60" value="<%= valor %>" required>
+            <% } else if (atributo.tipo === 'entero') { %>
+            <input type="number" id="<%= id %>" name="atributos[<%= atributo.clave %>]" class="formularioCampo" min="1" step="1" value="<%= valor %>" required>
+            <% } else { %>
+            <input type="number" id="<%= id %>" name="atributos[<%= atributo.clave %>]" class="formularioCampo" min="0.1" step="any" value="<%= valor %>" required>
+            <% } %>
+          </div>
+          <% }) %>
+        </fieldset>
+        <% }) %>
+
+        <div class="formularioAcciones">
+          <button type="submit" id="botonGuardar" class="boton botonPrimario botonGrande">
+            <span class="icono iconoMas" aria-hidden="true"></span>
+            <span class="botonTexto"><%= editando ? 'Guardar cambios' : 'Agregar' %></span>
+          </button>
+          <a class="boton botonGrande" href="/admin/dashboard"><span class="botonTexto">Cancelar</span></a>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <script src="/js/formularioProducto.js"></script>
+
+<%- include('parciales/pie') %>

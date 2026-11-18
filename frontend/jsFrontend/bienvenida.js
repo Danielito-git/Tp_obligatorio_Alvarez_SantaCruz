@@ -2,7 +2,7 @@
 import { config } from "./config.js";
 import { crearIcono, montarLayout } from "./layout.js";
 import { guardarNombre, obtenerNombre } from "./sesion.js";
-import { normalizarNombre, validarNombre } from "./validaciones.js";
+import { nombreMax, normalizarNombre, validarNombre } from "./validaciones.js";
 
 montarLayout({ titulo: "Bienvenida", pantalla: "bienvenida" });
 
@@ -13,6 +13,7 @@ const error = document.getElementById("errorNombre");
 document.getElementById("tituloBienvenida").textContent = `¡Bienvenido a ${config.nombreApp}!`;
 mostrarCategorias();
 
+campo.maxLength = nombreMax;
 campo.value = obtenerNombre() ?? "";
 campo.focus({ preventScroll: true });
 
@@ -62,4 +63,4 @@ function mostrarCategorias() {
       return item;
     })
   );
-}
+};

@@ -1,0 +1,80 @@
+<%- include('parciales/encabezado', { titulo: 'Administradores' }) %>
+
+  <main class="panel">
+    <div class="panelCabecera">
+      <h1>Administradores</h1>
+      <a class="boton" href="/admin/dashboard">
+        <span class="botonTexto">Volver al dashboard</span>
+      </a>
+    </div>
+
+    <section class="panelSeccion">
+      <h2>
+        <span class="icono iconoAdmin" aria-hidden="true"></span>
+        Cuentas
+        <span class="panelCantidad">(<%= usuarios.length %>)</span>
+      </h2>
+
+      <div class="tablaContenedor">
+        <table class="tablaPanel">
+          <thead>
+            <tr>
+              <th>ID</th><th>Correo</th><th>Creado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% usuarios.forEach((usuario) => { %>
+            <tr>
+              <td><%= usuario.id %></td>
+              <td>
+                <%= usuario.correo %>
+                <% if (admin && admin.id === usuario.id) { %>
+                <span class="etiqueta etiquetaActivo">Vos</span>
+                <% } %>
+              </td>
+              <td><%= formatearFecha(usuario.createdAt) %></td>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panelSeccion">
+      <h2>
+        <span class="icono iconoMas" aria-hidden="true"></span>
+        Agregar administrador
+      </h2>
+
+      <form id="formUsuario" class="formulario formularioUsuario" novalidate>
+        <p id="mensajeUsuario" class="mensajeError" role="alert" hidden></p>
+        <p id="exitoUsuario" class="mensajeExito" role="status" hidden></p>
+
+        <div class="formularioFila">
+          <label for="correoNuevo" class="formularioEtiqueta">Correo</label>
+          <input type="email" id="correoNuevo" name="correo" class="formularioCampo" maxlength="120" autocomplete="off" required>
+        </div>
+
+        <div class="formularioFila">
+          <label for="contraseniaNueva" class="formularioEtiqueta">Contraseña (mínimo 6 caracteres)</label>
+          <input type="password" id="contraseniaNueva" name="contrasenia" class="formularioCampo" minlength="6" maxlength="72" autocomplete="new-password" required>
+        </div>
+
+        <div class="formularioFila">
+          <label for="contraseniaRepetida" class="formularioEtiqueta">Repetir contraseña</label>
+          <input type="password" id="contraseniaRepetida" class="formularioCampo" minlength="6" maxlength="72" autocomplete="new-password" required>
+        </div>
+
+        <div class="formularioAcciones">
+          <button type="submit" id="botonCrearUsuario" class="boton botonPrimario botonGrande">
+            <span class="icono iconoMas" aria-hidden="true"></span>
+            <span class="botonTexto">Crear administrador</span>
+          </button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <script src="/js/usuarios.js"></script>
+
+<%- include('parciales/pie') %>

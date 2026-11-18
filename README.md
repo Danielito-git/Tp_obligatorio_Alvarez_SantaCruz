@@ -22,3 +22,11 @@ npm.cmd run dev
 
 
 Abrir `frontend/index.html` con la extensión *Live Server* de VS Code (puerto 5500). Si se usa otro puerto, hay que agregarlo en `origenesPermitidos` del `.env`. El botón Tienda del panel lleva a `http://127.0.0.1:5500/frontend/index.html`; si Live Server abre la tienda en otra dirección, se cambia con `urlTienda` en el `.env`.
+
+si no llega a funcionar el accesso rapido en el login del back end probar el comando.
+
+```bash
+npm run cargarAdmin
+```
+
+e intentar denuevo.
